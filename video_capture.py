@@ -20,7 +20,7 @@ def mouse_callback(event, x, y, flags, user_data):
     print(event, x, y, flags, user_data)
 
 
-cv2.namedWindow("Capture", cv2.WINDOW_NORMAL)
+cv2.namedWindow("Capture", cv2.WINDOW_AUTOSIZE)
 
 windowName = "Capture"
 i=1
@@ -31,9 +31,9 @@ vw = cv2.VideoWriter(f'B:\liond\Pictures\OpenCV_Learning\Record-{datetime.now().
 
 cv2.setMouseCallback(windowName, mouse_callback, "from cv2 camera capture")
 
-cv2.createTrackbar('R:', windowName, 0, 255, lambda x: print(x))
-cv2.createTrackbar('G:', windowName, 0, 255, lambda x: print(x))
-cv2.createTrackbar('B:', windowName, 0, 255, lambda x: print(x))
+cv2.createTrackbar('R', windowName, 0, 255, lambda x: print(x))
+cv2.createTrackbar('G', windowName, 0, 255, lambda x: print(x))
+cv2.createTrackbar('B', windowName, 0, 255, lambda x: print(x))
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -46,8 +46,11 @@ while True:
         break
 
     img = np.zeros_like(frm)
+    R = cv2.getTrackbarPos('R', windowName)
+    G = cv2.getTrackbarPos('G', windowName)
+    B = cv2.getTrackbarPos('B', windowName)
     # by default, OpenCV uses BGR color space
-    cv2.circle(frm, (100, 100), 50, (cv2.getTrackbarPos('B:', windowName), cv2.getTrackbarPos('G:', windowName), cv2.getTrackbarPos('R:', windowName)), -1)
+    cv2.circle(frm, (100, 100), 50, (B, G, R), -1)
     cv2.imshow(windowName, frm)
     vw.write(frm)
 
