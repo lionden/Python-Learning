@@ -22,12 +22,18 @@ def mouse_callback(event, x, y, flags, user_data):
 
 cv2.namedWindow("Capture", cv2.WINDOW_NORMAL)
 
+windowName = "Capture"
 i=1
 # cap = cv2.VideoCapture(0)
 cap = cv2.VideoCapture(1)
-fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-vw = cv2.VideoWriter(f'B:\liond\Pictures\OpenCV_Learning\Record-{datetime.now().strftime('%Y%m%d_%H%M%S')}.avi',fourcc,25, (640,480)) # (1920,1080))
-cv2.setMouseCallback("Capture", mouse_callback, "from cv2 camera capture")
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+vw = cv2.VideoWriter(f'B:\liond\Pictures\OpenCV_Learning\Record-{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp4',fourcc,25, (640,480)) # (1920,1080))
+
+cv2.setMouseCallback(windowName, mouse_callback, "from cv2 camera capture")
+
+cv2.createTrackbar('R:', windowName, 0, 255, lambda x: print(x))
+cv2.createTrackbar('G:', windowName, 0, 255, lambda x: print(x))
+cv2.createTrackbar('B:', windowName, 0, 255, lambda x: print(x))
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -39,7 +45,9 @@ while True:
         print("Can't receive frame (stream end?). Exiting ...")
         break
 
-    cv2.imshow("Capture", np.zeros_like(frm))
+    img = np.zeros_like(frm)
+    cv2.circle(frm, (100, 100), 50, (cv2.getTrackbarPos('R:', windowName), cv2.getTrackbarPos('G:', windowName), cv2.getTrackbarPos('B:', windowName)), -1)
+    cv2.imshow(windowName, frm)
     vw.write(frm)
 
     key=cv2.waitKey(40)
