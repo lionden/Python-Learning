@@ -46,7 +46,8 @@ while True:
         break
 
     img = np.zeros_like(frm)
-    cv2.circle(frm, (100, 100), 50, (cv2.getTrackbarPos('R:', windowName), cv2.getTrackbarPos('G:', windowName), cv2.getTrackbarPos('B:', windowName)), -1)
+    # by default, OpenCV uses BGR color space
+    cv2.circle(frm, (100, 100), 50, (cv2.getTrackbarPos('B:', windowName), cv2.getTrackbarPos('G:', windowName), cv2.getTrackbarPos('R:', windowName)), -1)
     cv2.imshow(windowName, frm)
     vw.write(frm)
 
