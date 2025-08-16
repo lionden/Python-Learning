@@ -1,23 +1,24 @@
 import cv2
 import numpy as np
 
-img6 = np.zeros((512,512,3), np.uint8)
-mouse_pos = np.array([(0,0)], np.int32)
+mouse_pos = []
 def mouse_callback(event, x, y, flags, user_data):
     """
     docstring
     """
     # print(event, x, y, flags, user_data)
-    global img6
-    global mouse_pos
+    global img, img6, mouse_pos
     if (event == cv2.EVENT_LBUTTONDOWN):
-        mouse_pos = np.array([(0,0)])
+        mouse_pos = [(x, y)]
 
-    if(flags == 1):
-        # print((x,y))
-        mouse_pos = np.append(mouse_pos, (x,y))
-        print(mouse_pos)
-        cv2.polylines(img6, [mouse_pos], False, (0,0,255), 3)
+    elif (event == cv2.EVENT_MOUSEMOVE):
+        if(flags == 1):
+            mouse_pos.append((x, y))
+            if(len(mouse_pos) > 1):
+                cv2.polylines(img6, [np.array(mouse_pos)], False, (0,0,255), 3)
+
+    elif (event == cv2.EVENT_RBUTTONUP):
+        img6 = img.copy()
 
 img = cv2.imread("B:\liond\Pictures\lena.png")
 
@@ -54,10 +55,6 @@ cv2.namedWindow("Image6", cv2.WINDOW_AUTOSIZE)
 img6 = img.copy()
 cv2.setMouseCallback("Image6", mouse_callback, None)
 while True:
-    # print(mouse_pos)
-    # if(mouse_pos.size > 0):
-    #     cv2.polylines(img6, [mouse_pos], False, (255,255,255), 3)
-
     cv2.imshow("Image6", img6)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         print('break')
