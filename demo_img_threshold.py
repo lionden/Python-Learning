@@ -11,7 +11,7 @@ cv2.imshow("gray",gray)
 ret, binary = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
 cv2.imshow("binary",binary)
 
-# truncate
+# truncate, 削峰
 ret, truncate = cv2.threshold(gray, 100, 255, cv2.THRESH_TRUNC)
 cv2.imshow("truncate",truncate)
 
