@@ -1,6 +1,21 @@
+'''find contours and manually draw contour'''
+
 import cv2
 
-def draw_contour(img,contours):
+def find_contours_via_BGR_image(img:cv2.UMat):
+    cv2.imshow("img",img)
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow("gray",gray)
+
+    ret, binary = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+    cv2.imshow("binary",binary)
+
+    contours,hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    return contours
+
+def circle_points_of_contours(img:cv2.UMat, contours):
     for contour in contours:
         print(contour)
         print(f'Area: {cv2.contourArea(contour)}, Length: {cv2.arcLength(contour, True)}')
@@ -11,24 +26,19 @@ def draw_contour(img,contours):
             x,y = point[0]
             cv2.circle(img, (x, y), 5, (0,255,0), 1)
 
-img = cv2.imread("assets/contour.png")
-cv2.imshow("img",img)
+    pass
 
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-cv2.imshow("gray",gray)
+if __name__ == "__main__":
+    img = cv2.imread("assets/contour.png")
+    contours = find_contours_via_BGR_image(img)
+    # print(contours)
+    cv2.drawContours(img, contours, -1, (0,0,255), 1)
+    circle_points_of_contours(img, contours)
+    cv2.imshow("contours",img)
 
-ret, binary = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
-cv2.imshow("binary",binary)
+    key = cv2.waitKey(0)
+    if(key & 0xFF ==ord('x')):
+        print('exit')
+        exit()
 
-contours,hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-# print(contours)
-cv2.drawContours(img, contours, -1, (0,0,255), 1)
-draw_contour(img, contours)
-cv2.imshow("contours",img)
-
-key = cv2.waitKey(0)
-if(key & 0xFF ==ord('x')):
-    print('exit')
-    exit()
-
-cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
