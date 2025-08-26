@@ -3,7 +3,7 @@ min area rectangle and bounding rectangle
 '''
 
 import cv2
-from demo_img_contour import circle_points_of_contours, find_contours_via_BGR_image
+from rampup_img_contour import circle_points_of_contours, find_contours_via_BGR_image
 
 def draw_lines_via_points(img:cv2.UMat, points, closed=True):
     if len(points) < 2:
