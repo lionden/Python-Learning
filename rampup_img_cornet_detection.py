@@ -36,6 +36,18 @@ for corner in corners:
 
 cv2.imshow('shitomasi',shitomasi)
 
+'''
+SIFT
+Create SIFT object
+Detect keypoints
+Draw keypoints
+'''
+sift = cv2.xfeatures2d.SIFT_create()
+kp = sift.detect(gray)
+sift_img = img.copy()
+cv2.drawKeypoints(gray, kp, sift_img)
+cv2.imshow('sift', sift_img)
+
 key = cv2.waitKey(0)
 if(key & 0xFF ==ord('x')):
     print('exit')
