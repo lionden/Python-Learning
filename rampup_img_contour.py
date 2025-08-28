@@ -8,10 +8,10 @@ def find_contours_via_BGR_image(img:cv2.UMat):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     cv2.imshow("gray",gray)
 
-    ret, binary = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
     cv2.imshow("binary",binary)
 
-    contours,hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     return contours
 
